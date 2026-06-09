@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}ShopEase — Mening Buyurtmalarim{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="min-height: 80vh;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark">Mening buyurtmalarim</h1>
+            <p class="text-muted mb-0">Xaridlar tarixingiz va buyurtma holatlari</p>
+        </div>
+        <span class="badge bg-primary rounded-pill px-3 py-2">Jami: {{ orders.count }} ta</span>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Buyurtma ID</th>
+                        <th>Sana / Vaqt</th>
+                        <th>Yetkazib berish manzili</th>
+                        <th>Umumiy summa</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Harakat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary">#{{ order.id }}</td>
+                            <td class="text-muted">{{ order.created_at|date:"d.m.Y, H:i"|default:"Yaqinda" }}</td>
+                            <td class="text-dark text-truncate" style="max-width: 250px;">{{ order.address }}</td>
+                            <td class="fw-bold text-success">${{ order.total_price }}</td>
+                            <td>
+                                {% if order.status == 'pending' %}
+                                    <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">Kutilmoqda</span>
+                                {% elif order.status == 'completed' %}
+                                    <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">Yetkazildi</span>
+                                {% else %}
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-2 rounded-pill">{{ order.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end pe-4">
+                                <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">Batafsil</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <span class="fs-1 d-block mb-2">🛒</span>
+                                Hozircha sizda hech qanday buyurtma mavjud emas.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

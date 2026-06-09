@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Buyurtma #{{ order.id }} Tafsiloti{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="min-height: 80vh;">
+    <div class="mb-4">
+        <a href="{% url 'order_list' %}" class="text-decoration-none text-muted">
+            <i class="bi bi-arrow-left"></i> Buyurtmalarga qaytish
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 16px;">
+                <h4 class="fw-bold text-dark mb-4">Sotib olingan mahsulotlar</h4>
+                
+                <div class="d-flex flex-column gap-3">
+                    {% for item in items %}
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-secondary bg-opacity-10 text-muted d-flex align-items-center justify-content-center rounded" style="width: 50px; height: 50px;">
+                                    📦
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-0">{{ item.product.name }}</h6>
+                                    <small class="text-muted">{{ item.quantity }} ta x ${{ item.price }}</small>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="fw-bold text-dark">${{ item.price }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 bg-primary bg-opacity-10 text-dark" style="border-radius: 16px; border: 1px solid rgba(13, 110, 253, 0.1);">
+                <h4 class="fw-bold mb-3">Buyurtma Ma'lumotlari</h4>
+                <hr>
+                <div class="mb-2">
+                    <span class="text-muted small d-block">Mijoz:</span>
+                    <strong>{{ order.user.username }}</strong>
+                </div>
+                <div class="mb-2">
+                    <span class="text-muted small d-block">Yetkazish manzili:</span>
+                    <strong>{{ order.address }}</strong>
+                </div>
+                <div class="mb-3">
+                    <span class="text-muted small d-block">Holati:</span>
+                    <span class="badge bg-primary mt-1 px-3 py-2 rounded-pill">{{ order.status|upper }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="fs-5 fw-bold">Jami summa:</span>
+                    <span class="fs-4 fw-bold text-primary">${{ order.total_price }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
