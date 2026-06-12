@@ -6,7 +6,7 @@ from apps.users.models import User
 
 
 @api_view(['GET'])
-def user_list(request):
+def user_list_view(request):
     users = User.objects.all()
     serializer = UserListSerializer(users, many=True)
     return Response(serializer.data)

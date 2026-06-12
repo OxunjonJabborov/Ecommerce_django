@@ -6,7 +6,7 @@ from apps.categories.models import Category
 
 
 @api_view(['GET'])
-def category_list(request):
+def category_list_view(request):
     categories = Category.objects.all()
     serializer = CategoryListSerializer(categories, many=True)
     return Response(serializer.data)
